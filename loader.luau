@@ -1,6 +1,3 @@
-if getgenv().__MULTYHUB_LOADED then return end
-getgenv().__MULTYHUB_LOADED = true
-
 if not game:IsLoaded() then
 	game.Loaded:Wait()
 end
@@ -64,7 +61,6 @@ if not entry then
 			Duration = 5
 		})
 	end)
-	getgenv().__MULTYHUB_LOADED = nil
 	return
 end
 
