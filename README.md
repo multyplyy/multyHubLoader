@@ -1,9 +1,5 @@
 # Multy Hub Loader
 
-Universal loader for all Multy Hub scripts. You run one script, it figures out what game you're in, and loads the right thing.
-
----
-
 ## How to Use
 
 Paste this in your executor:
@@ -12,7 +8,7 @@ Paste this in your executor:
 loadstring(game:HttpGet("https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/loader.luau"))()
 ```
 
-That's it. If you're in a supported game, it loads. If not, it tells you.
+If you're in a supported game, it loads. If not, it tells you.
 
 ### Autoexec
 
@@ -40,7 +36,7 @@ The loader script is right here in this repo. You can read it yourself, it's lik
 
 The actual game scripts are obfuscated, which just means the code is scrambled so it can't be copied or read easily. That's standard for basically every script project out there. Obfuscation is not malware. It's just code protection.
 
-Nothing here touches your files, installs anything, or does anything outside of Roblox. It's a Roblox script loader. That's it.
+Nothing here touches your files, installs anything, or does anything outside of Roblox.
 
 ---
 
@@ -51,10 +47,6 @@ The scripts are hosted and obfuscated through [Junkie Development](https://jnkie
 ### Price
 
 Junkie is way cheaper than alternatives like Luarmor. For what you get, the value isn't even close. They give you significantly more Luraph obfuscations per plan than any other service out there.
-
-### Ease of Use
-
-Setting up obfuscation and hosting through Junkie is straightforward. No annoying setup process, no jumping through hoops. Upload, configure, done.
 
 ### Security
 
