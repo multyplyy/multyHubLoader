@@ -38,10 +38,19 @@ local GAMES = {
 	["105446216022659"] = {
 		name = "Apocalypse Rising 2",
 		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download"
+	},
+	["4747446334"] = {
+		name = "Blackhawk Rescue Mission 5",
+		url = "https://api.jnkie.com/api/v1/luascripts/public/c1d9891c5990d92853439b6e0a31adacba9209631ef18b9817dd0a31fc79ba0b/download"
+	},
+	["3701546109"] = {
+		name = "Blackhawk Rescue Mission 5",
+		url = "https://api.jnkie.com/api/v1/luascripts/public/c1d9891c5990d92853439b6e0a31adacba9209631ef18b9817dd0a31fc79ba0b/download"
 	}
 }
 
 local AR2_UNIVERSE_ID = 358276974
+local BRM5_UNIVERSE_ID = 1054526971
 
 local entry = GAMES[tostring(game.PlaceId)]
 
@@ -49,6 +58,9 @@ if not entry then
 	pcall(function()
 		if game.GameId == AR2_UNIVERSE_ID then
 			entry = GAMES["863266079"]
+		end
+		if game.GameId == BRM5_UNIVERSE_ID then
+			entry = GAMES["4747446334"]
 		end
 	end)
 end
