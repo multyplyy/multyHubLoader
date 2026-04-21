@@ -1,8 +1,10 @@
 ﻿{
-  "ssrp": { "name": "SCP: Site Roleplay", "shortName": "SSRP", "online": true, "private": false },
-  "rc2": { "name": "Refinery Caves 2", "shortName": "RC2", "online": true, "private": false },
-  "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": true, "private": false },
-  "ea": { "name": "Energy Assault", "shortName": "EA", "online": true, "private": false },
+  "hub_offline": true,
+  "hub_offline_message": "Hub's offline. no more junkie obfuscations so it will be offline until i get a junkie premium sub.",
+  "ssrp": { "name": "SCP: Site Roleplay", "shortName": "SSRP", "online": false, "private": false },
+  "rc2": { "name": "Refinery Caves 2", "shortName": "RC2", "online": false, "private": false },
+  "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": false, "private": false },
+  "ea": { "name": "Energy Assault", "shortName": "EA", "online": false, "private": false },
   "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": false, "private": true },
-  "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": true, "private": false }
+  "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": false, "private": false }
 }

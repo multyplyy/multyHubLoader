@@ -6,6 +6,26 @@ repeat task.wait(0.1) until game.PlaceId ~= 0
 repeat task.wait(0.1) until game:GetService("Players").LocalPlayer
 repeat task.wait(0.1) until game:GetService("Workspace").CurrentCamera
 
+local HUB_OFFLINE = true
+local HUB_OFFLINE_MESSAGE = "Hub's offline. no more junkie obfuscations so it will be offline until i get a junkie premium sub. Discord for updates."
+
+if HUB_OFFLINE then
+	for _ = 1, 3 do
+		pcall(function()
+			game:GetService("StarterGui"):SetCore("SendNotification", {
+				Title = "Multy Hub — Offline",
+				Text = HUB_OFFLINE_MESSAGE,
+				Duration = 15,
+			})
+		end)
+		task.wait(0.5)
+	end
+	pcall(function()
+		warn("[Multy Hub] " .. HUB_OFFLINE_MESSAGE)
+	end)
+	return
+end
+
 local GAMES = {
 	["3226555017"] = {
 		name = "SCP: Site Roleplay",
