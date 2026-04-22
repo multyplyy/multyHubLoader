@@ -11,15 +11,13 @@ local HUB_OFFLINE_MESSAGE = "This script is currently offline. Discord for updat
 
 if HUB_OFFLINE then
 	pcall(function() setclipboard("https://discord.gg/UPRtgK6tEJ") end)
-		pcall(function()
-			game:GetService("StarterGui"):SetCore("SendNotification", {
-				Title = "Multy Hub | Offline",
-				Text = HUB_OFFLINE_MESSAGE,
-				Duration = 15,
-			})
-		end)
-		task.wait(0.5)
-	end
+	pcall(function()
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = "Multy Hub | Offline",
+			Text = HUB_OFFLINE_MESSAGE,
+			Duration = 15,
+		})
+	end)
 	pcall(function()
 		warn("[Multy Hub] " .. HUB_OFFLINE_MESSAGE)
 	end)
