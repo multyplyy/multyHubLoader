@@ -5,6 +5,6 @@
   "rc2": { "name": "Refinery Caves 2", "shortName": "RC2", "online": true, "private": false },
   "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": true, "private": false },
   "ea": { "name": "Energy Assault", "shortName": "EA", "online": true, "private": false },
-  "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": true, "private": true },
+  "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": false, "private": true },
   "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": false, "private": false }
 }
