@@ -1,0 +1,16 @@
+.history/
+scripts/
+gameDump*/
+PotassiumDocumentation/
+
+.env
+.env.*
+*.log
+trace.txt
+*_trace.txt
+
+*.luau.luau
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
