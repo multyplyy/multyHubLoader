@@ -27,7 +27,7 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 | Apocalypse Rising 2 | Discontinued |
 | Blackhawk Rescue Mission 5 | Supported |
 | Valley Prison | Supported |
-| TTK Testing | Testing / Offline |
+| TTK Testing | Testing / Supported |
 
 ---
 
@@ -40,24 +40,6 @@ The loader script is right here in this repo. You can read it yourself, it's lik
 The actual game scripts are obfuscated, which just means the code is scrambled so it can't be copied or read easily. That's standard for basically every script project out there. Obfuscation is not malware. It's just code protection.
 
 Nothing here touches your files, installs anything, or does anything outside of Roblox.
-
----
-
-## Why Junkie Development
-
-The scripts are hosted and obfuscated through [Junkie Development](https://jnkie.com). Here's why we use them instead of something else:
-
-### Price
-
-Junkie is way cheaper than alternatives like Luarmor. For what you get, the value isn't even close. They give you significantly more Luraph obfuscations per plan than any other service out there.
-
-### Security
-
-Junkie provides script protection, key systems, and a CDN for hosting. All our scripts run keyless right now, but the infrastructure is there if we ever need it.
-
-### Is it perfect?
-
-Honestly, no. Luarmor is more polished and has fewer quirks overall. But Junkie costs less and gives you more for what you pay. The tradeoffs make sense for us, and everything we need works fine.
 
 ---
 
