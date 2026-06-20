@@ -1,6 +1,7 @@
 local Game = game
 local Players = Game:GetService("Players")
 local StarterGui = Game:GetService("StarterGui")
+local UserInputService = Game:GetService("UserInputService")
 local Workspace = Game:GetService("Workspace")
 
 local DISCORD_URL = "https://discord.gg/UPRtgK6tEJ"
@@ -128,6 +129,10 @@ local function showUnavailable(title, message, duration)
 	warn("[Multy Hub] " .. message)
 end
 
+local function isMobileDevice()
+	return UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled
+end
+
 local function resolveGame()
 	return gamesByPlaceId[Game.PlaceId] or gamesByUniverseId[Game.GameId]
 end
@@ -167,6 +172,15 @@ local function loadGame(gameDefinition)
 end
 
 waitUntilReady()
+
+if isMobileDevice() then
+	showUnavailable(
+		"Multy Hub | Unsupported Device",
+		"Mobile executors are not supported. Please use a supported desktop executor.",
+		12
+	)
+	return
+end
 
 if HUB.offline then
 	showUnavailable("Multy Hub | Offline", HUB.message, 15)
