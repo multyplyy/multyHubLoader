@@ -27,6 +27,7 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 | Apocalypse Rising 2 | Discontinued |
 | Blackhawk Rescue Mission 5 | Supported |
 | Valley Prison | Supported |
+| TTK Testing | Testing / Offline |
 
 ---
 

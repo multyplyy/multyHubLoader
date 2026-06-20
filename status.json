@@ -7,5 +7,6 @@
   "ea": { "name": "Energy Assault", "shortName": "EA", "online": true, "private": false },
   "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": false, "discontinued": true, "private": false },
   "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": true, "private": false },
-  "vp": { "name": "Valley Prison", "shortName": "VP", "online": true, "private": false }
+  "vp": { "name": "Valley Prison", "shortName": "VP", "online": true, "private": false },
+  "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": false, "earlyAccess": true, "private": false }
 }

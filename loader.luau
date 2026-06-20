@@ -80,12 +80,18 @@ local GAMES = {
 	["15784744207"] = {
 		name = "Valley Prison",
 		url = "https://api.jnkie.com/api/v1/luascripts/public/e9a1391186c98585ef9e21277c62a7af24d8ec222a2d9c70aac4bb78ff62f124/download"
+	},
+	["120189115846709"] = {
+		name = "TTK Testing",
+		offline = true,
+		message = "The TTK testing build is not publicly hosted yet. Join the Discord for testing updates."
 	}
 }
 
 local AR2_UNIVERSE_ID = 358276974
 local BRM5_UNIVERSE_ID = 1054526971
 local VP_UNIVERSE_ID = 5456952508
+local TTK_UNIVERSE_ID = 10090256806
 
 local entry = GAMES[tostring(game.PlaceId)]
 
@@ -99,6 +105,9 @@ if not entry then
 		end
 		if game.GameId == VP_UNIVERSE_ID then
 			entry = GAMES["15784744207"]
+		end
+		if game.GameId == TTK_UNIVERSE_ID then
+			entry = GAMES["120189115846709"]
 		end
 	end)
 end
