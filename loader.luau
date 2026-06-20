@@ -43,19 +43,31 @@ local GAMES = {
 	},
 	["863266079"] = {
 		name = "Apocalypse Rising 2",
-		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download"
+		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
+		offline = true,
+		discontinued = true,
+		message = "The Apocalypse Rising 2 script has been discontinued and is no longer available."
 	},
 	["10077968348"] = {
 		name = "Apocalypse Rising 2",
-		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download"
+		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
+		offline = true,
+		discontinued = true,
+		message = "The Apocalypse Rising 2 script has been discontinued and is no longer available."
 	},
 	["93911318070665"] = {
 		name = "Apocalypse Rising 2",
-		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download"
+		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
+		offline = true,
+		discontinued = true,
+		message = "The Apocalypse Rising 2 script has been discontinued and is no longer available."
 	},
 	["105446216022659"] = {
 		name = "Apocalypse Rising 2",
-		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download"
+		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
+		offline = true,
+		discontinued = true,
+		message = "The Apocalypse Rising 2 script has been discontinued and is no longer available."
 	},
 	["4747446334"] = {
 		name = "Blackhawk Rescue Mission 5",
@@ -99,6 +111,21 @@ if not entry then
 			Text = "This game is not supported. Discord for updates (copied to clipboard)",
 			Duration = 5
 		})
+	end)
+	return
+end
+
+if entry.offline then
+	pcall(function() setclipboard("https://discord.gg/UPRtgK6tEJ") end)
+	pcall(function()
+		game:GetService("StarterGui"):SetCore("SendNotification", {
+			Title = entry.discontinued and "Multy Hub | Discontinued" or "Multy Hub | Offline",
+			Text = entry.message or "This script is currently offline. Discord for updates (copied to clipboard)",
+			Duration = 15
+		})
+	end)
+	pcall(function()
+		warn("[Multy Hub] " .. (entry.message or "This script is currently offline."))
 	end)
 	return
 end

@@ -8,7 +8,7 @@ Paste this in your executor:
 loadstring(game:HttpGet("https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/loader.luau"))()
 ```
 
-If you're in a supported game, it loads. If not, it tells you.
+If you're in an available game, it loads. If not, it tells you.
 
 ### Autoexec
 
@@ -16,7 +16,7 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 
 ---
 
-## Supported Games
+## Games
 
 | Game | Status |
 |------|--------|
@@ -24,7 +24,7 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 | Refinery Caves 2 | Supported |
 | Naramo Nuclear Plant | Supported |
 | Energy Assault | Supported |
-| Apocalypse Rising 2 | Supported |
+| Apocalypse Rising 2 | Discontinued |
 | Blackhawk Rescue Mission 5 | Supported |
 | Valley Prison | Supported |
 
