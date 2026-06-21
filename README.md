@@ -24,7 +24,7 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 | Refinery Caves 2 | Supported |
 | Naramo Nuclear Plant | Supported |
 | Energy Assault | Supported |
-| Apocalypse Rising 2 | Discontinued |
+| Apocalypse Rising 2 | Supported |
 | Blackhawk Rescue Mission 5 | Supported |
 | Valley Prison | Supported |
 | TTK Testing | Testing / Supported |

@@ -42,8 +42,7 @@ local GAMES = {
 			105446216022659,
 		},
 		universeId = 358276974,
-		status = "discontinued",
-		message = "The Apocalypse Rising 2 script has been discontinued and is no longer available. Discord invite copied to clipboard.",
+		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
 	},
 	{
 		name = "Blackhawk Rescue Mission 5",
