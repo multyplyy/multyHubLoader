@@ -10,7 +10,10 @@ fromRGB(34,34,40)local TEXT=Color3.fromRGB(230,230,235)local MUTED=Color3.
 fromRGB(145,145,150)local ERROR=Color3.fromRGB(235,80,95)local SUCCESS=Color3.
 fromRGB(120,200,110)local WARNING=Color3.fromRGB(235,180,80)local KEY_FILE=
 'havoc_key.txt'local DISCORD_INVITE='https://discord.gg/UPRtgK6tEJ'local
-fontBold,fontMedium local fontOk=pcall(function()fontBold=Font.new(
+PAYMENT_URL='https://www.scpscript.info/havoc/payment/'local LIFETIME_DEAL_END=
+1784757600 local function isLifetimeDeal()local ok,now=pcall(os.time)if not ok
+or type(now)~='number'then return true end return now<LIFETIME_DEAL_END end
+local fontBold,fontMedium local fontOk=pcall(function()fontBold=Font.new(
 getcustomasset('SemiBold.font'),Enum.FontWeight.Regular,Enum.FontStyle.Normal)
 fontMedium=Font.new(getcustomasset('Medium.font'),Enum.FontWeight.Regular,Enum.
 FontStyle.Normal)end)if not fontOk then fontBold=Font.fromEnum(Enum.Font.
@@ -24,8 +27,8 @@ writefile(KEY_FILE,key)end)end local function deleteSavedKey()if not hasFS then
 return end pcall(function()if isfile(KEY_FILE)then delfile(KEY_FILE)end end)end
 local ERROR_MESSAGES={KEY_INCORRECT='Key not found or deleted.',KEY_INVALID=
 'Key is in an invalid format.',KEY_EXPIRED=
-[[This key has expired. Ask staff on Discord for a new beta key.]],KEY_BANNED=
-'This key is blacklisted.',KEY_HWID_LOCKED=
+[[This key has expired. Renew it on our website or Discord to keep access.]],
+KEY_BANNED='This key is blacklisted.',KEY_HWID_LOCKED=
 [[Key is locked to a different HWID. Reset it with our Discord bot.]],
 SCRIPT_ID_INCORRECT='Script configuration error. Contact staff.',
 SCRIPT_ID_INVALID='Script configuration error. Contact staff.',INVALID_EXECUTOR=
@@ -102,17 +105,20 @@ TextXAlignment.Center subtitle.LayoutOrder=2 subtitle.ZIndex=9003 subtitle.
 Parent=keyPage local betaBox=Instance.new('Frame')betaBox.Size=UDim2.new(1,0,0,
 72)betaBox.BackgroundColor3=PANEL betaBox.BorderSizePixel=0 betaBox.LayoutOrder=
 3 betaBox.ZIndex=9003 betaBox.Parent=keyPage makeCorner(betaBox,8)makeStroke(
-betaBox,STROKE_2,1)local betaTitle=Instance.new('TextLabel')betaTitle.Size=UDim2
-.new(1,-24,0,28)betaTitle.Position=UDim2.new(0,12,0,10)betaTitle.
-BackgroundTransparency=1 betaTitle.RichText=true betaTitle.Text=
-[[<font color="rgb(240,167,51)">Public Beta</font> - Free Access]]betaTitle.
-TextColor3=TEXT betaTitle.FontFace=fontBold betaTitle.TextSize=18 betaTitle.
-TextXAlignment=Enum.TextXAlignment.Center betaTitle.ZIndex=9004 betaTitle.Parent
-=betaBox local betaInfo=Instance.new('TextLabel')betaInfo.Size=UDim2.new(1,-24,0
-,24)betaInfo.Position=UDim2.new(0,12,0,38)betaInfo.BackgroundTransparency=1
-betaInfo.Text=
-[[Invite-only beta. Keys are handed out by staff on our Discord below.]]betaInfo
-.TextColor3=MUTED betaInfo.FontFace=fontMedium betaInfo.TextSize=14 betaInfo.
+betaBox,STROKE_2,1)local dealActive=isLifetimeDeal()local betaTitle=Instance.
+new('TextLabel')betaTitle.Size=UDim2.new(1,-24,0,28)betaTitle.Position=UDim2.
+new(0,12,0,10)betaTitle.BackgroundTransparency=1 betaTitle.RichText=true
+betaTitle.Text=dealActive and
+[[<font color="rgb(240,167,51)">Lifetime Deal</font> - Limited Time]]or
+'<font color="rgb(240,167,51)">Monthly Access</font>'betaTitle.TextColor3=TEXT
+betaTitle.FontFace=fontBold betaTitle.TextSize=18 betaTitle.TextXAlignment=Enum.
+TextXAlignment.Center betaTitle.ZIndex=9004 betaTitle.Parent=betaBox local
+betaInfo=Instance.new('TextLabel')betaInfo.Size=UDim2.new(1,-24,0,24)betaInfo.
+Position=UDim2.new(0,12,0,38)betaInfo.BackgroundTransparency=1 betaInfo.Text=
+dealActive and'\u{20ac}'..
+[[16.99 one-time for permanent access - only until the deal ends. Get a key below.]]
+or'\u{20ac}'..'5.99/month. Get a key on our website or Discord below.'betaInfo.
+TextColor3=MUTED betaInfo.FontFace=fontMedium betaInfo.TextSize=14 betaInfo.
 TextWrapped=true betaInfo.TextXAlignment=Enum.TextXAlignment.Center betaInfo.
 ZIndex=9004 betaInfo.Parent=betaBox local statusLabel=Instance.new('TextLabel')
 statusLabel.Size=UDim2.new(1,0,0,0)statusLabel.AutomaticSize=Enum.AutomaticSize.
@@ -127,8 +133,8 @@ PANEL_2 inputFrame.BorderSizePixel=0 inputFrame.LayoutOrder=5 inputFrame.ZIndex=
 makeStroke(inputFrame,STROKE_2,1)local inputBox=Instance.new('TextBox')inputBox.
 Size=UDim2.new(1,-18,1,0)inputBox.Position=UDim2.new(0,9,0,0)inputBox.
 BackgroundTransparency=1 inputBox.Text=''inputBox.PlaceholderText=
-'Paste your beta key here...'inputBox.PlaceholderColor3=Color3.fromRGB(95,95,110
-)inputBox.TextColor3=TEXT inputBox.FontFace=fontMedium inputBox.TextSize=16
+'Paste your key here...'inputBox.PlaceholderColor3=Color3.fromRGB(95,95,110)
+inputBox.TextColor3=TEXT inputBox.FontFace=fontMedium inputBox.TextSize=16
 inputBox.TextXAlignment=Enum.TextXAlignment.Left inputBox.ClearTextOnFocus=false
 inputBox.ZIndex=9004 inputBox.Parent=inputFrame inputBox.Focused:Connect(
 function()TweenService:Create(inputStroke,TweenInfo.new(0.15),{Color=ACCENT}):
@@ -143,18 +149,23 @@ local validateBtn=makeButton(validateRow,'Validate Key',ACCENT,Color3.fromRGB(
 buttonLayout.FillDirection=Enum.FillDirection.Horizontal buttonLayout.Padding=
 UDim.new(0,10)buttonLayout.SortOrder=Enum.SortOrder.LayoutOrder buttonLayout.
 HorizontalAlignment=Enum.HorizontalAlignment.Center buttonLayout.Parent=
-buttonRow local discordHolder=Instance.new('Frame')discordHolder.Size=UDim2.new(
-0.5,-5,1,0)discordHolder.BackgroundTransparency=1 discordHolder.LayoutOrder=1
-discordHolder.Parent=buttonRow local abortHolder=Instance.new('Frame')
-abortHolder.Size=UDim2.new(0.5,-5,1,0)abortHolder.BackgroundTransparency=1
-abortHolder.LayoutOrder=2 abortHolder.Parent=buttonRow local discordBtn=
-makeButton(discordHolder,'Discord',DISCORD,Color3.fromRGB(230,230,235))local
-abortBtn=makeButton(abortHolder,'Abort',Color3.fromRGB(30,30,34),Color3.fromRGB(
-205,205,215))makeStroke(abortBtn,Color3.fromRGB(40,40,46),1)local footer=
-Instance.new('TextLabel')footer.Size=UDim2.new(1,0,0,0)footer.AutomaticSize=Enum
-.AutomaticSize.Y footer.BackgroundTransparency=1 footer.RichText=true footer.
-Text=
-[[<font color="rgb(120,120,130)">Havoc is in public beta. Access is by invite - request a key from staff on our Discord.</font>]]
+buttonRow local getKeyHolder=Instance.new('Frame')getKeyHolder.Size=UDim2.new(1/
+3,-7,1,0)getKeyHolder.BackgroundTransparency=1 getKeyHolder.LayoutOrder=1
+getKeyHolder.Parent=buttonRow local discordHolder=Instance.new('Frame')
+discordHolder.Size=UDim2.new(1/3,-7,1,0)discordHolder.BackgroundTransparency=1
+discordHolder.LayoutOrder=2 discordHolder.Parent=buttonRow local abortHolder=
+Instance.new('Frame')abortHolder.Size=UDim2.new(1/3,-7,1,0)abortHolder.
+BackgroundTransparency=1 abortHolder.LayoutOrder=3 abortHolder.Parent=buttonRow
+local getKeyBtn=makeButton(getKeyHolder,'Get Key',ACCENT,Color3.fromRGB(255,255,
+255))local discordBtn=makeButton(discordHolder,'Discord',DISCORD,Color3.fromRGB(
+230,230,235))local abortBtn=makeButton(abortHolder,'Abort',Color3.fromRGB(30,30,
+34),Color3.fromRGB(205,205,215))makeStroke(abortBtn,Color3.fromRGB(40,40,46),1)
+local footer=Instance.new('TextLabel')footer.Size=UDim2.new(1,0,0,0)footer.
+AutomaticSize=Enum.AutomaticSize.Y footer.BackgroundTransparency=1 footer.
+RichText=true footer.Text=dealActive and
+[[<font color="rgb(120,120,130)">Lifetime deal is live for a limited time. Tap Get Key to grab your key, then paste it above.</font>]]
+or
+[[<font color="rgb(120,120,130)">Get a monthly key with Get Key, then paste it above. Renew it before it expires to keep access.</font>]]
 footer.TextColor3=MUTED footer.FontFace=fontMedium footer.TextSize=15 footer.
 TextWrapped=true footer.TextXAlignment=Enum.TextXAlignment.Center footer.
 LayoutOrder=8 footer.ZIndex=9003 footer.Parent=keyPage local loadPage=Instance.
@@ -198,55 +209,56 @@ btn,normal,hovered)btn.MouseEnter:Connect(function()TweenService:Create(btn,
 TweenInfo.new(0.15,Enum.EasingStyle.Quint),{BackgroundColor3=hovered}):Play()end
 )btn.MouseLeave:Connect(function()TweenService:Create(btn,TweenInfo.new(0.15,
 Enum.EasingStyle.Quint),{BackgroundColor3=normal}):Play()end)end hover(
-validateBtn,ACCENT,ACCENT_HOVER)hover(discordBtn,DISCORD,DISCORD_HOVER)hover(
-abortBtn,Color3.fromRGB(30,30,34),Color3.fromRGB(43,43,51))local TOP_BAR=3 local 
-function pageHeight(page)local s=cardScale.Scale if s<=0 then s=1 end return
-page.AbsoluteSize.Y/s end local function setCardHeight(h)card.Size=UDim2.new(0,
-430,0,TOP_BAR+h)end local busy=false local closed=false local barConn=nil local
-cursorConn=nil local function setStatus(msg,color)statusLabel.Text=msg
-statusLabel.TextColor3=color or MUTED end local function setBusy(state)busy=
-state validateBtn.Text=state and'Validating...'or'Validate Key'validateBtn.
-BackgroundTransparency=state and 0.15 or 0 end local function stopBar()if
-barConn then pcall(function()barConn:Disconnect()end)barConn=nil end end local 
-function startBar()if barConn then return end barConn=RunService.RenderStepped:
-Connect(function()local t=(os.clock()%1.5)/1.5 local pp=t<0.5 and t*2 or 2-t*2
-pp=pp*pp*(3-2*pp)barPill.Position=UDim2.new(pp*0.6,0,0,0)end)end cursorRefs()[
-'keyui']=true installCursorOverride()cursorConn=RunService.RenderStepped:
-Connect(function()pcall(function()if not UserInputService.MouseIconEnabled then
-UserInputService.MouseIconEnabled=true end if UserInputService.MouseBehavior~=
-Enum.MouseBehavior.Default then UserInputService.MouseBehavior=Enum.
-MouseBehavior.Default end end)end)local function playExit(after)if closed then
-return end closed=true stopBar()if cursorConn then pcall(function()cursorConn:
-Disconnect()end)cursorConn=nil end cursorRefs()['keyui']=nil TweenService:
-Create(backdrop,TweenInfo.new(0.22,Enum.EasingStyle.Quint,Enum.EasingDirection.
-In),{BackgroundTransparency=1}):Play()TweenService:Create(card,TweenInfo.new(
-0.22,Enum.EasingStyle.Quint,Enum.EasingDirection.In),{GroupTransparency=1}):
-Play()TweenService:Create(cardStroke,TweenInfo.new(0.22,Enum.EasingStyle.Quint,
-Enum.EasingDirection.In),{Transparency=1}):Play()TweenService:Create(cardScale,
-TweenInfo.new(0.22,Enum.EasingStyle.Quint,Enum.EasingDirection.In),{Scale=0.97})
-:Play()task.delay(0.24,function()pcall(function()gui:Destroy()end)if after then
-pcall(after)end end)end getgenv().MULTYHUB_KEYUI_DISMISS=function()playExit()end
-local function goToLoading()loadPage.Visible=true loadPage.GroupTransparency=1
-task.wait()local loadH=pageHeight(loadPage)if loadH<60 then loadH=170 end
-loadPage.Visible=false TweenService:Create(keyPage,TweenInfo.new(0.2,Enum.
-EasingStyle.Quint,Enum.EasingDirection.Out),{GroupTransparency=1}):Play()task.
-wait(0.22)keyPage.Visible=false task.wait(0.06)loadPage.Visible=true startBar()
-TweenService:Create(card,TweenInfo.new(0.3,Enum.EasingStyle.Quint,Enum.
-EasingDirection.Out),{Size=UDim2.new(0,430,0,TOP_BAR+loadH)}):Play()TweenService
-:Create(loadPage,TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.
-Out),{GroupTransparency=0}):Play()task.wait(0.32)end local function onValidated(
-key)if closed then return end saveKey(key)goToLoading()local fh=pageHeight(
-loadPage)if fh<60 then fh=170 end setCardHeight(fh)keyPage.Visible=false keyPage
-.GroupTransparency=1 loadPage.Visible=true loadPage.GroupTransparency=0 task.
-wait()getgenv().SCRIPT_KEY=key end local function tryValidate(key)if busy or
-closed then return end key=tostring(key or''):gsub('^%s+',''):gsub('%s+$','')if#
-key<1 then setStatus('Please enter your key first.',ERROR)return end setBusy(
-true)setStatus('Checking your key...',Color3.fromRGB(200,200,210))local ok,
-status=pcall(function()return api.check_key(key)end)if not ok or type(status)~=
-'table'then setStatus('Network error. Please try again.',ERROR)setBusy(false)
-return end if status.code=='KEY_VALID'then setBusy(false)onValidated(key)return
-end local errCode=status.code or'ERROR'local errMsg=ERROR_MESSAGES[errCode]or
-tostring(status.message or errCode)if errCode=='KEY_BANNED'then setStatus(
+validateBtn,ACCENT,ACCENT_HOVER)hover(getKeyBtn,ACCENT,ACCENT_HOVER)hover(
+discordBtn,DISCORD,DISCORD_HOVER)hover(abortBtn,Color3.fromRGB(30,30,34),Color3.
+fromRGB(43,43,51))local TOP_BAR=3 local function pageHeight(page)local s=
+cardScale.Scale if s<=0 then s=1 end return page.AbsoluteSize.Y/s end local 
+function setCardHeight(h)card.Size=UDim2.new(0,430,0,TOP_BAR+h)end local busy=
+false local closed=false local barConn=nil local cursorConn=nil local function 
+setStatus(msg,color)statusLabel.Text=msg statusLabel.TextColor3=color or MUTED
+end local function setBusy(state)busy=state validateBtn.Text=state and
+'Validating...'or'Validate Key'validateBtn.BackgroundTransparency=state and 0.15
+or 0 end local function stopBar()if barConn then pcall(function()barConn:
+Disconnect()end)barConn=nil end end local function startBar()if barConn then
+return end barConn=RunService.RenderStepped:Connect(function()local t=(os.clock(
+)%1.5)/1.5 local pp=t<0.5 and t*2 or 2-t*2 pp=pp*pp*(3-2*pp)barPill.Position=
+UDim2.new(pp*0.6,0,0,0)end)end cursorRefs()['keyui']=true installCursorOverride(
+)cursorConn=RunService.RenderStepped:Connect(function()pcall(function()if not
+UserInputService.MouseIconEnabled then UserInputService.MouseIconEnabled=true
+end if UserInputService.MouseBehavior~=Enum.MouseBehavior.Default then
+UserInputService.MouseBehavior=Enum.MouseBehavior.Default end end)end)local 
+function playExit(after)if closed then return end closed=true stopBar()if
+cursorConn then pcall(function()cursorConn:Disconnect()end)cursorConn=nil end
+cursorRefs()['keyui']=nil TweenService:Create(backdrop,TweenInfo.new(0.22,Enum.
+EasingStyle.Quint,Enum.EasingDirection.In),{BackgroundTransparency=1}):Play()
+TweenService:Create(card,TweenInfo.new(0.22,Enum.EasingStyle.Quint,Enum.
+EasingDirection.In),{GroupTransparency=1}):Play()TweenService:Create(cardStroke,
+TweenInfo.new(0.22,Enum.EasingStyle.Quint,Enum.EasingDirection.In),{Transparency
+=1}):Play()TweenService:Create(cardScale,TweenInfo.new(0.22,Enum.EasingStyle.
+Quint,Enum.EasingDirection.In),{Scale=0.97}):Play()task.delay(0.24,function()
+pcall(function()gui:Destroy()end)if after then pcall(after)end end)end getgenv()
+.MULTYHUB_KEYUI_DISMISS=function()playExit()end local function goToLoading()
+loadPage.Visible=true loadPage.GroupTransparency=1 task.wait()local loadH=
+pageHeight(loadPage)if loadH<60 then loadH=170 end loadPage.Visible=false
+TweenService:Create(keyPage,TweenInfo.new(0.2,Enum.EasingStyle.Quint,Enum.
+EasingDirection.Out),{GroupTransparency=1}):Play()task.wait(0.22)keyPage.Visible
+=false task.wait(0.06)loadPage.Visible=true startBar()TweenService:Create(card,
+TweenInfo.new(0.3,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{Size=UDim2.
+new(0,430,0,TOP_BAR+loadH)}):Play()TweenService:Create(loadPage,TweenInfo.new(
+0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{GroupTransparency=0}):
+Play()task.wait(0.32)end local function onValidated(key)if closed then return
+end saveKey(key)goToLoading()local fh=pageHeight(loadPage)if fh<60 then fh=170
+end setCardHeight(fh)keyPage.Visible=false keyPage.GroupTransparency=1 loadPage.
+Visible=true loadPage.GroupTransparency=0 task.wait()getgenv().SCRIPT_KEY=key
+end local function tryValidate(key)if busy or closed then return end key=
+tostring(key or''):gsub('^%s+',''):gsub('%s+$','')if#key<1 then setStatus(
+'Please enter your key first.',ERROR)return end setBusy(true)setStatus(
+'Checking your key...',Color3.fromRGB(200,200,210))local ok,status=pcall(
+function()return api.check_key(key)end)if not ok or type(status)~='table'then
+setStatus('Network error. Please try again.',ERROR)setBusy(false)return end if
+status.code=='KEY_VALID'then setBusy(false)onValidated(key)return end local
+errCode=status.code or'ERROR'local errMsg=ERROR_MESSAGES[errCode]or tostring(
+status.message or errCode)if errCode=='KEY_BANNED'then setStatus(
 'This key is blacklisted.',ERROR)getgenv().MULTYHUB_KEYUI_DISMISS=nil playExit(
 function()pcall(function()game.Players.LocalPlayer:Kick('Key blacklisted')end)
 end)return end if errCode=='UNKNOWN_ERROR'or errCode=='SECURITY_ERROR'or errCode
@@ -258,21 +270,22 @@ end validateBtn.MouseButton1Click:Connect(function()tryValidate(inputBox.Text)
 end)local copyGen={}local function copyFeedback(btn,label,url)pcall(function()
 setclipboard(url)end)copyGen[btn]=(copyGen[btn]or 0)+1 local gen=copyGen[btn]btn
 .Text='Copied!'task.delay(1.5,function()if copyGen[btn]==gen and not closed then
-pcall(function()btn.Text=label end)end end)end discordBtn.MouseButton1Click:
-Connect(function()copyFeedback(discordBtn,'Discord',DISCORD_INVITE)end)abortBtn.
-MouseButton1Click:Connect(function()getgenv().UI_CLOSED=true getgenv().
-MULTYHUB_KEYUI_DISMISS=nil playExit()end)task.wait()task.wait()local keyH=
-pageHeight(keyPage)if keyH<60 then keyH=360 end setCardHeight(keyH)cardScale.
-Scale=0.94 TweenService:Create(backdrop,TweenInfo.new(0.25,Enum.EasingStyle.
-Quint,Enum.EasingDirection.Out),{BackgroundTransparency=0.35}):Play()
-TweenService:Create(card,TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.
-EasingDirection.Out),{GroupTransparency=0}):Play()TweenService:Create(cardStroke
-,TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{
-Transparency=0}):Play()TweenService:Create(cardScale,TweenInfo.new(0.34,Enum.
-EasingStyle.Back,Enum.EasingDirection.Out),{Scale=1}):Play()task.delay(240,
-function()if closed then return end if getgenv().SCRIPT_KEY then playExit()end
-end)local savedKey=loadSavedKey()if savedKey then inputBox.Text=savedKey
-setStatus('Saved key found. Validating automatically...',Color3.fromRGB(200,200,
-210))task.spawn(function()task.wait(0.5)tryValidate(savedKey)end)end while not
-getgenv().SCRIPT_KEY and not getgenv().UI_CLOSED do task.wait(0.1)end return
-getgenv().SCRIPT_KEY end)()if not result then return end
+pcall(function()btn.Text=label end)end end)end getKeyBtn.MouseButton1Click:
+Connect(function()copyFeedback(getKeyBtn,'Get Key',PAYMENT_URL)end)discordBtn.
+MouseButton1Click:Connect(function()copyFeedback(discordBtn,'Discord',
+DISCORD_INVITE)end)abortBtn.MouseButton1Click:Connect(function()getgenv().
+UI_CLOSED=true getgenv().MULTYHUB_KEYUI_DISMISS=nil playExit()end)task.wait()
+task.wait()local keyH=pageHeight(keyPage)if keyH<60 then keyH=360 end
+setCardHeight(keyH)cardScale.Scale=0.94 TweenService:Create(backdrop,TweenInfo.
+new(0.25,Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{
+BackgroundTransparency=0.35}):Play()TweenService:Create(card,TweenInfo.new(0.28,
+Enum.EasingStyle.Quint,Enum.EasingDirection.Out),{GroupTransparency=0}):Play()
+TweenService:Create(cardStroke,TweenInfo.new(0.28,Enum.EasingStyle.Quint,Enum.
+EasingDirection.Out),{Transparency=0}):Play()TweenService:Create(cardScale,
+TweenInfo.new(0.34,Enum.EasingStyle.Back,Enum.EasingDirection.Out),{Scale=1}):
+Play()task.delay(240,function()if closed then return end if getgenv().SCRIPT_KEY
+then playExit()end end)local savedKey=loadSavedKey()if savedKey then inputBox.
+Text=savedKey setStatus('Saved key found. Validating automatically...',Color3.
+fromRGB(200,200,210))task.spawn(function()task.wait(0.5)tryValidate(savedKey)end
+)end while not getgenv().SCRIPT_KEY and not getgenv().UI_CLOSED do task.wait(0.1
+)end return getgenv().SCRIPT_KEY end)()if not result then return end

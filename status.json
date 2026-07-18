@@ -9,5 +9,5 @@
   "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": true, "private": false },
   "vp": { "name": "Valley Prison", "shortName": "VP", "online": true, "private": false },
   "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": true, "earlyAccess": true, "private": false },
-  "havoc": { "name": "Havoc", "shortName": "Havoc", "online": true, "earlyAccess": true, "private": false }
+  "havoc": { "name": "Havoc", "shortName": "Havoc", "online": true, "private": false }
 }
