@@ -20,15 +20,19 @@ You can also drop the loader into your executor's `autoexec` folder. Then it run
 
 | Game | Status |
 |------|--------|
-| SCP: Site Roleplay | Supported |
-| Refinery Caves 2 | Supported |
-| Naramo Nuclear Plant | Supported |
-| Energy Assault | Supported |
-| Apocalypse Rising 2 | Supported |
 | Blackhawk Rescue Mission 5 | Supported |
-| Valley Prison | Supported |
-| TTK Testing | Testing / Supported |
-| Havoc | Beta / Supported |
+| Havoc | Supported |
+| SCP: Site Roleplay | Offline - not maintained |
+| Refinery Caves 2 | Offline - not maintained |
+| Naramo Nuclear Plant | Offline - not maintained |
+| Energy Assault | Offline - not maintained |
+| Apocalypse Rising 2 | Offline - not maintained |
+| Valley Prison | Offline - not maintained |
+| TTK Testing | Offline - not maintained |
+
+**Why are most scripts offline?** They are no longer updated, so they have broken features
+and a ban risk — they stay off rather than get people banned. They may return after the owner
+is back from vacation. **BRM5** and **Havoc** are unaffected and still fully supported.
 
 ---
 

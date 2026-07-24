@@ -1,13 +1,14 @@
 {
   "hub_offline": false,
   "hub_offline_message": "",
-  "ssrp": { "name": "SCP: Site Roleplay", "shortName": "SSRP", "online": false, "private": false },
-  "rc2": { "name": "Refinery Caves 2", "shortName": "RC2", "online": true, "private": false },
-  "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": true, "private": false },
-  "ea": { "name": "Energy Assault", "shortName": "EA", "online": true, "private": false },
-  "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": true, "private": false },
+  "retired_message": "This script is offline and is not coming back for now. It is no longer updated, so it has broken features and a ban risk. It may return after the owner is back from vacation.",
+  "ssrp": { "name": "SCP: Site Roleplay", "shortName": "SSRP", "online": false, "private": false, "retired": true },
+  "rc2": { "name": "Refinery Caves 2", "shortName": "RC2", "online": false, "private": false, "retired": true },
+  "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": false, "private": false, "retired": true },
+  "ea": { "name": "Energy Assault", "shortName": "EA", "online": false, "private": false, "retired": true },
+  "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": false, "private": false, "retired": true },
   "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": true, "private": false },
-  "vp": { "name": "Valley Prison", "shortName": "VP", "online": true, "private": false },
-  "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": true, "earlyAccess": true, "private": false },
+  "vp": { "name": "Valley Prison", "shortName": "VP", "online": false, "private": false, "retired": true },
+  "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": false, "earlyAccess": true, "private": false, "retired": true },
   "havoc": { "name": "Havoc", "shortName": "Havoc", "online": true, "private": false }
 }

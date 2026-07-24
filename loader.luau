@@ -2,27 +2,28 @@ local Game=game local Players=Game:GetService('Players')local StarterGui=Game:
 GetService('StarterGui')local UserInputService=Game:GetService(
 'UserInputService')local Workspace=Game:GetService('Workspace')local DISCORD_URL
 ='https://discord.gg/UPRtgK6tEJ'local DEFAULT_OFFLINE_MESSAGE=
-'This script is currently offline.'local HUB={offline=false,message=
+'This script is currently offline.'local RETIRED_MESSAGE=
+'This script is offline and is not coming back for now. It is no longer updated, so it has broken features and a ban risk. It may return after the owner is back from vacation.'local HUB={offline=false,message=
 DEFAULT_OFFLINE_MESSAGE}local GAMES={{name='SCP: Site Roleplay',placeIds={
 3226555017},url=
 [[https://api.jnkie.com/api/v1/luascripts/public/4fa86c6a73196bf8a2bb94234c069925d24fb2d6beeebb8683e6dd0c997c3c8a/download]]
-},{name='Refinery Caves 2',placeIds={12196278347},url=
+,status='offline',message=RETIRED_MESSAGE},{name='Refinery Caves 2',placeIds={12196278347},url=
 [[https://api.jnkie.com/api/v1/luascripts/public/b58914084e6def7d6d6476aa75b1c028075cfe85156ae93a027d09f38a72c721/download]]
-},{name='Naramo Nuclear Plant',placeIds={98626216952426},url=
+,status='offline',message=RETIRED_MESSAGE},{name='Naramo Nuclear Plant',placeIds={98626216952426},url=
 [[https://api.jnkie.com/api/v1/luascripts/public/86e7ce3479f8686809da4db8bc437a2e1800e4f83f223d0d091e3a9f06c41680/download]]
-},{name='Energy Assault',placeIds={6172932937},url=
+,status='offline',message=RETIRED_MESSAGE},{name='Energy Assault',placeIds={6172932937},url=
 [[https://api.jnkie.com/api/v1/luascripts/public/a2a45e4964bf767b1ad70f5f8ee2882fde0a548fe15110fc43c3969c7475fef0/download]]
-},{name='Apocalypse Rising 2',placeIds={863266079,10077968348,93911318070665,
+,status='offline',message=RETIRED_MESSAGE},{name='Apocalypse Rising 2',placeIds={863266079,10077968348,93911318070665,
 105446216022659},universeId=358276974,url=
 [[https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download]]
-},{name='Blackhawk Rescue Mission 5',placeIds={4747446334,3701546109},universeId
+,status='offline',message=RETIRED_MESSAGE},{name='Blackhawk Rescue Mission 5',placeIds={4747446334,3701546109},universeId
 =1054526971,url=
 [[https://api.jnkie.com/api/v1/luascripts/public/c1d9891c5990d92853439b6e0a31adacba9209631ef18b9817dd0a31fc79ba0b/download]]
 },{name='Valley Prison',placeIds={15784744207},universeId=5456952508,url=
 [[https://api.jnkie.com/api/v1/luascripts/public/e9a1391186c98585ef9e21277c62a7af24d8ec222a2d9c70aac4bb78ff62f124/download]]
-},{name='TTK Testing',placeIds={120189115846709},universeId=10090256806,url=
+,status='offline',message=RETIRED_MESSAGE},{name='TTK Testing',placeIds={120189115846709},universeId=10090256806,url=
 [[https://api.jnkie.com/api/v1/luascripts/public/a5bbf4363782723c19581df435c0c1803e697b9c05580b26ea39565b84140584/download]]
-},{name='Havoc',placeIds={13927562399,16530963934},universeId=4827308727,auth=
+,status='offline',message=RETIRED_MESSAGE},{name='Havoc',placeIds={13927562399,16530963934},universeId=4827308727,auth=
 'luarmor',keyUiUrl=
 [[https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/havoc_keyui.luau]]
 ,url=
