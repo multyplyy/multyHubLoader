@@ -1,0 +1,10 @@
+.history/
+
+.env
+.env.*
+*.log
+
+*.rbxl
+*.rbxlx
+*.rbxm
+*.rbxmx
