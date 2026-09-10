@@ -88,6 +88,16 @@ local GAMES = {
 		accent = { 240, 167, 51 },
 		url = "https://api.luarmor.net/files/v4/loaders/b72cb788dfef6ec345fb57e66eedcd0d.lua",
 	},
+	{
+		name = "bug fixes",
+		placeIds = { 100971017807798 },
+		universeId = 10666192800,
+		scriptId = "ad5ce22cd1c6073a9e71dfe7fb9bc8e6",
+		accent = { 176, 48, 60 },
+		private = true,
+		keyFile = "multyhub_privates_key.txt",
+		url = "https://api.luarmor.net/files/v4/loaders/ad5ce22cd1c6073a9e71dfe7fb9bc8e6.lua",
+	},
 }
 
 local byPlaceId = {}
@@ -158,6 +168,8 @@ local function askForKey(entry)
 		scriptId = entry.scriptId,
 		gameName = entry.name,
 		accent = entry.accent,
+		private = entry.private,
+		keyFile = entry.keyFile,
 	}
 
 	if not runRemote(entry, KEYUI_URL) then

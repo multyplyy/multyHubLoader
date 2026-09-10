@@ -4,6 +4,7 @@ local api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.l
 api.script_id = CONFIG.scriptId or "b72cb788dfef6ec345fb57e66eedcd0d"
 
 local GAME_NAME = CONFIG.gameName or "Havoc"
+local IS_PRIVATE = CONFIG.private == true
 
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -34,8 +35,8 @@ local MUTED = Color3.fromRGB(145, 145, 150)
 local ERROR = Color3.fromRGB(235, 80, 95)
 local WARNING = Color3.fromRGB(235, 180, 80)
 
-local KEY_FILE = "multyhub_key.txt"
-local LEGACY_KEY_FILES = { "havoc_key.txt" }
+local KEY_FILE = (type(CONFIG.keyFile) == "string" and CONFIG.keyFile ~= "") and CONFIG.keyFile or "multyhub_key.txt"
+local LEGACY_KEY_FILES = IS_PRIVATE and {} or { "havoc_key.txt" }
 local DISCORD_INVITE = "https://discord.gg/UPRtgK6tEJ"
 local PAYMENT_URL = "https://www.scpscript.info/payment/"
 
@@ -114,6 +115,11 @@ local ERROR_MESSAGES = {
     UNKNOWN_ERROR = "Server error. Please try again shortly.",
     ERROR = "Network error. Please try again."
 }
+
+if IS_PRIVATE then
+    ERROR_MESSAGES.KEY_EXPIRED = "This key has expired. Open a ticket in our Discord to have it extended."
+    ERROR_MESSAGES.KEY_HWID_LOCKED = "Key is locked to a different HWID. Open a ticket in our Discord and staff will reset it."
+end
 
 local function makeCorner(parent, radius)
     local corner = Instance.new("UICorner")
@@ -334,7 +340,9 @@ do
     betaTitle.Position = UDim2.new(0, 12, 0, 10)
     betaTitle.BackgroundTransparency = 1
     betaTitle.RichText = true
-    betaTitle.Text = '<font color="' .. accentTag .. '">One key</font> - Havoc + BRM5'
+    betaTitle.Text = IS_PRIVATE
+        and ('<font color="' .. accentTag .. '">Private</font> script')
+        or ('<font color="' .. accentTag .. '">One key</font> - Havoc + BRM5')
     betaTitle.TextColor3 = TEXT
     betaTitle.FontFace = fontBold
     betaTitle.TextSize = 18
@@ -346,8 +354,10 @@ do
     betaInfo.Size = UDim2.new(1, -24, 0, 24)
     betaInfo.Position = UDim2.new(0, 12, 0, 38)
     betaInfo.BackgroundTransparency = 1
-    betaInfo.Text = "\226\130\172" .. "4.99/week, \226\130\172" .. "9.99/month or \226\130\172"
-        .. "19.99 lifetime - every plan unlocks both scripts. Get a key below."
+    betaInfo.Text = IS_PRIVATE
+        and "This script is not for sale. Keys are handed out by staff only."
+        or ("\226\130\172" .. "4.99/week, \226\130\172" .. "9.99/month or \226\130\172"
+            .. "19.99 lifetime - every plan unlocks both scripts. Get a key below.")
     betaInfo.TextColor3 = MUTED
     betaInfo.FontFace = fontMedium
     betaInfo.TextSize = 14
@@ -454,12 +464,20 @@ do
     local abortBtn = makeButton(abortHolder, "Abort", Color3.fromRGB(30, 30, 34), Color3.fromRGB(205, 205, 215))
     makeStroke(abortBtn, Color3.fromRGB(40, 40, 46), 1)
 
+    if IS_PRIVATE then
+        getKeyHolder.Visible = false
+        discordHolder.Size = UDim2.new(0.5, -5, 1, 0)
+        abortHolder.Size = UDim2.new(0.5, -5, 1, 0)
+    end
+
     local footer = Instance.new("TextLabel")
     footer.Size = UDim2.new(1, 0, 0, 0)
     footer.AutomaticSize = Enum.AutomaticSize.Y
     footer.BackgroundTransparency = 1
     footer.RichText = true
-    footer.Text = '<font color="rgb(120,120,130)">One key runs Havoc and BRM5. Tap Get Key to grab yours, then paste it above.</font>'
+    footer.Text = IS_PRIVATE
+        and '<font color="rgb(120,120,130)">Got a key from staff? Paste it above. HWID resets for this script are done by staff in a Discord ticket.</font>'
+        or '<font color="rgb(120,120,130)">One key runs Havoc and BRM5. Tap Get Key to grab yours, then paste it above.</font>'
     footer.TextColor3 = MUTED
     footer.FontFace = fontMedium
     footer.TextSize = 15
