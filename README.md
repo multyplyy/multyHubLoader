@@ -21,6 +21,7 @@ Handy if you play more than one of these.
 | Blackhawk Rescue Mission 5 | Supported, paid |
 | Havoc | Supported, paid |
 | bug fixes | Supported, private, key from staff only |
+| Cold War | Supported, private, key from staff only |
 | Naramo Nuclear Plant | Supported, free, no key |
 | TTK Testing | Supported, free, no key |
 | SCP: Site Roleplay | Offline, not maintained |
@@ -45,9 +46,10 @@ unlock the same thing, only the length differs. Buy at
 
 Naramo and TTK are free and need no key, just run the loader.
 
-bug fixes is private. It is not for sale and a MultyHub key does not unlock it; keys are
-handed out by staff, and HWID resets for it are done by staff in a Discord ticket. Its key is
-saved separately, to `multyhub_privates_key.txt`, so it never overwrites your MultyHub key.
+bug fixes and Cold War are private. They are not for sale and a MultyHub key does not unlock
+them; keys are handed out by staff, and HWID resets for them are done by staff in a Discord
+ticket. One private key unlocks both. It is saved separately, to `multyhub_privates_key.txt`,
+so it never overwrites your MultyHub key.
 
 ## "Is this a virus?"
 

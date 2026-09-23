@@ -98,6 +98,16 @@ local GAMES = {
 		keyFile = "multyhub_privates_key.txt",
 		url = "https://api.luarmor.net/files/v4/loaders/ad5ce22cd1c6073a9e71dfe7fb9bc8e6.lua",
 	},
+	{
+		name = "Cold War",
+		placeIds = { 13687899540 },
+		universeId = 4750561026,
+		scriptId = "ba1636f9907c5be638a3a0f88b448637",
+		accent = { 138, 154, 91 },
+		private = true,
+		keyFile = "multyhub_privates_key.txt",
+		url = "https://api.luarmor.net/files/v4/loaders/ba1636f9907c5be638a3a0f88b448637.lua",
+	},
 }
 
 local byPlaceId = {}
