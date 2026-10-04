@@ -7,37 +7,17 @@ local DISCORD_URL = "https://discord.gg/UPRtgK6tEJ"
 local KEYUI_URL = "https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/keyui.luau"
 
 local HUB_OFFLINE = true
-local HUB_OFFLINE_MESSAGE = "All scripts are temporarily offline due to Luarmor/Luraph issues."
+local HUB_OFFLINE_MESSAGE =
+	"All scripts are offline for now. Most obfuscators have been cracked and Luraph is no longer reliable."
 
 local RETIRED_MESSAGE =
-	"This script is offline and is not coming back for now. It is no longer updated, so it has broken features and a ban risk. It may return after the owner is back from vacation."
+	"This script is offline and not maintained. It is no longer updated, so it has broken features and a ban risk."
 
 local GAMES = {
-	{
-		name = "SCP: Site Roleplay",
-		placeIds = { 3226555017 },
-		url = "https://api.jnkie.com/api/v1/luascripts/public/4fa86c6a73196bf8a2bb94234c069925d24fb2d6beeebb8683e6dd0c997c3c8a/download",
-		offline = true,
-		message = RETIRED_MESSAGE,
-	},
-	{
-		name = "Refinery Caves 2",
-		placeIds = { 12196278347 },
-		url = "https://api.jnkie.com/api/v1/luascripts/public/b58914084e6def7d6d6476aa75b1c028075cfe85156ae93a027d09f38a72c721/download",
-		offline = true,
-		message = RETIRED_MESSAGE,
-	},
 	{
 		name = "Naramo Nuclear Plant",
 		placeIds = { 98626216952426 },
 		url = "https://api.luarmor.net/files/v4/loaders/06a53d37c77751da3995e5188d703ae3.lua",
-	},
-	{
-		name = "Energy Assault",
-		placeIds = { 6172932937 },
-		url = "https://api.jnkie.com/api/v1/luascripts/public/a2a45e4964bf767b1ad70f5f8ee2882fde0a548fe15110fc43c3969c7475fef0/download",
-		offline = true,
-		message = RETIRED_MESSAGE,
 	},
 	{
 		name = "Apocalypse Rising 2",
@@ -62,14 +42,6 @@ local GAMES = {
 		scriptId = "b55e67d5562bcf695ef042658cb621d1",
 		accent = { 138, 154, 91 },
 		url = "https://api.luarmor.net/files/v4/loaders/b55e67d5562bcf695ef042658cb621d1.lua",
-	},
-	{
-		name = "Valley Prison",
-		placeIds = { 15784744207 },
-		universeId = 5456952508,
-		url = "https://api.jnkie.com/api/v1/luascripts/public/e9a1391186c98585ef9e21277c62a7af24d8ec222a2d9c70aac4bb78ff62f124/download",
-		offline = true,
-		message = RETIRED_MESSAGE,
 	},
 	{
 		name = "TTK Testing",

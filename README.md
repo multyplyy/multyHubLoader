@@ -16,26 +16,26 @@ Handy if you play more than one of these.
 
 ## Games
 
-**All scripts are temporarily offline due to Luarmor/Luraph issues.** Running the loader in a
-supported game shows an offline notice until this is sorted. Check the Discord for updates.
+**All scripts are offline for now.** Most obfuscators have been cracked and Luraph is no
+longer reliable, so nothing ships until that changes. Running the loader in a supported game
+shows an offline notice. Check the Discord for updates.
 
 | Game | Status |
 |------|--------|
-| Blackhawk Rescue Mission 5 | Temporarily offline, paid |
-| bug fixes | Temporarily offline, private, key from staff only |
-| Cold War | Temporarily offline, private, key from staff only |
-| Naramo Nuclear Plant | Temporarily offline, free, no key |
-| TTK Testing | Temporarily offline, free, no key |
-| Havoc | Discontinued, the game is no longer updated |
-| SCP: Site Roleplay | Offline, not maintained |
-| Refinery Caves 2 | Offline, not maintained |
-| Energy Assault | Offline, not maintained |
+| Blackhawk Rescue Mission 5 | Offline for now, paid |
+| bug fixes | Offline for now, private, key from staff only |
+| Cold War | Offline for now, private, key from staff only |
+| Naramo Nuclear Plant | Offline for now, free, no key |
+| TTK Testing | Offline for now, free, no key |
 | Apocalypse Rising 2 | Offline, not maintained |
-| Valley Prison | Offline, not maintained |
+| Havoc | Discontinued |
+| SCP: Site Roleplay | Discontinued |
+| Refinery Caves 2 | Discontinued |
+| Energy Assault | Discontinued |
+| Valley Prison | Discontinued |
 
-Why are the bottom five offline? They aren't updated anymore, so they have broken features and
-a ban risk. They stay off rather than get people banned. They may come back once the owner is
-back from vacation.
+Apocalypse Rising 2 isn't updated anymore, so it has broken features and a ban risk. The
+discontinued scripts are gone for good and the loader no longer recognises their games.
 
 ## Keys
 
