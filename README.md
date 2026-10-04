@@ -28,14 +28,8 @@ shows an offline notice. Check the Discord for updates.
 | Naramo Nuclear Plant | Offline for now, free, no key |
 | TTK Testing | Offline for now, free, no key |
 | Apocalypse Rising 2 | Offline, not maintained |
-| Havoc | Discontinued |
-| SCP: Site Roleplay | Discontinued |
-| Refinery Caves 2 | Discontinued |
-| Energy Assault | Discontinued |
-| Valley Prison | Discontinued |
 
-Apocalypse Rising 2 isn't updated anymore, so it has broken features and a ban risk. The
-discontinued scripts are gone for good and the loader no longer recognises their games.
+Apocalypse Rising 2 isn't updated anymore, so it has broken features and a ban risk.
 
 ## Keys
 
