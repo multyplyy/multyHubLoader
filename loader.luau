@@ -6,8 +6,8 @@ local Workspace = game:GetService("Workspace")
 local DISCORD_URL = "https://discord.gg/UPRtgK6tEJ"
 local KEYUI_URL = "https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/keyui.luau"
 
-local HUB_OFFLINE = false
-local HUB_OFFLINE_MESSAGE = "This script is currently offline."
+local HUB_OFFLINE = true
+local HUB_OFFLINE_MESSAGE = "All scripts are temporarily offline due to Luarmor/Luraph issues."
 
 local RETIRED_MESSAGE =
 	"This script is offline and is not coming back for now. It is no longer updated, so it has broken features and a ban risk. It may return after the owner is back from vacation."
@@ -76,17 +76,6 @@ local GAMES = {
 		placeIds = { 120189115846709 },
 		universeId = 10090256806,
 		url = "https://api.luarmor.net/files/v4/loaders/a0d8616495aaa451fc7c46353cb06e1a.lua",
-	},
-	{
-		name = "Havoc",
-		placeIds = {
-			13927562399,
-			16530963934,
-		},
-		universeId = 4827308727,
-		scriptId = "b72cb788dfef6ec345fb57e66eedcd0d",
-		accent = { 240, 167, 51 },
-		url = "https://api.luarmor.net/files/v4/loaders/b72cb788dfef6ec345fb57e66eedcd0d.lua",
 	},
 	{
 		name = "bug fixes",
@@ -226,11 +215,6 @@ if UserInputService.TouchEnabled and not UserInputService.KeyboardEnabled then
 	return
 end
 
-if HUB_OFFLINE then
-	stop("Multy Hub | Offline", HUB_OFFLINE_MESSAGE, 15)
-	return
-end
-
 local current = byPlaceId[game.PlaceId] or byUniverseId[game.GameId]
 if not current then
 	stop("Multy Hub", "This game is not supported.", 5)
@@ -239,6 +223,11 @@ end
 
 if current.offline then
 	stop("Multy Hub | Offline", current.message, 15)
+	return
+end
+
+if HUB_OFFLINE then
+	stop("Multy Hub | Offline", HUB_OFFLINE_MESSAGE, 15)
 	return
 end
 

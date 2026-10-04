@@ -16,29 +16,31 @@ Handy if you play more than one of these.
 
 ## Games
 
+**All scripts are temporarily offline due to Luarmor/Luraph issues.** Running the loader in a
+supported game shows an offline notice until this is sorted. Check the Discord for updates.
+
 | Game | Status |
 |------|--------|
-| Blackhawk Rescue Mission 5 | Supported, paid |
-| Havoc | Supported, paid |
-| bug fixes | Supported, private, key from staff only |
-| Cold War | Supported, private, key from staff only |
-| Naramo Nuclear Plant | Supported, free, no key |
-| TTK Testing | Supported, free, no key |
+| Blackhawk Rescue Mission 5 | Temporarily offline, paid |
+| bug fixes | Temporarily offline, private, key from staff only |
+| Cold War | Temporarily offline, private, key from staff only |
+| Naramo Nuclear Plant | Temporarily offline, free, no key |
+| TTK Testing | Temporarily offline, free, no key |
+| Havoc | Discontinued, the game is no longer updated |
 | SCP: Site Roleplay | Offline, not maintained |
 | Refinery Caves 2 | Offline, not maintained |
 | Energy Assault | Offline, not maintained |
 | Apocalypse Rising 2 | Offline, not maintained |
 | Valley Prison | Offline, not maintained |
 
-Why are most of them offline? They aren't updated anymore, so they have broken features and a
-ban risk. They stay off rather than get people banned. They may come back once the owner is
-back from vacation. BRM5, Havoc, Naramo and TTK are unaffected and still fully supported.
+Why are the bottom five offline? They aren't updated anymore, so they have broken features and
+a ban risk. They stay off rather than get people banned. They may come back once the owner is
+back from vacation.
 
 ## Keys
 
-BRM5 and Havoc are paid, and one key unlocks both. There is no separate purchase or separate
-key per script. Paste your key into the key window the first time the loader runs in either
-game, it gets saved to `multyhub_key.txt` and reused after that.
+BRM5 is paid. Paste your key into the key window the first time the loader runs, it gets
+saved to `multyhub_key.txt` and reused after that.
 
 Plans are 4.99 EUR / week, 9.99 EUR / month, or 19.99 EUR one-time for lifetime. All three
 unlock the same thing, only the length differs. Buy at
