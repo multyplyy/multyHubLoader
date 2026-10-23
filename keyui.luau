@@ -1,10 +1,61 @@
 local CONFIG = (type(getgenv) == "function" and getgenv().MULTYHUB_KEYUI) or {}
 
 local api = loadstring(game:HttpGet("https://sdkapi-public.luarmor.net/library.lua"))()
-api.script_id = CONFIG.scriptId or "b72cb788dfef6ec345fb57e66eedcd0d"
+
+local function makeEdition(source)
+    return {
+        id = source.id or "default",
+        label = source.label or "",
+        keyName = source.keyName or "key",
+        scriptId = source.scriptId,
+        private = source.private == true,
+        offline = source.offline == true,
+        message = source.message,
+        keyFile = (type(source.keyFile) == "string" and source.keyFile ~= "") and source.keyFile or "multyhub_key.txt",
+    }
+end
+
+local EDITIONS = {}
+if type(CONFIG.editions) == "table" and #CONFIG.editions > 0 then
+    for _, source in ipairs(CONFIG.editions) do
+        table.insert(EDITIONS, makeEdition(source))
+    end
+else
+    EDITIONS[1] = makeEdition({
+        scriptId = CONFIG.scriptId or "b72cb788dfef6ec345fb57e66eedcd0d",
+        private = CONFIG.private,
+        keyFile = CONFIG.keyFile,
+    })
+end
+
+local LOCK
+for _, edition in ipairs(EDITIONS) do
+    if CONFIG.lock ~= nil and edition.id == CONFIG.lock then
+        LOCK = edition
+    end
+end
+
+local ORDER = {}
+if LOCK then
+    table.insert(ORDER, LOCK)
+end
+for _, edition in ipairs(EDITIONS) do
+    if edition ~= LOCK then
+        table.insert(ORDER, edition)
+    end
+end
+
+local MULTI = #EDITIONS > 1
+local SHOWN = LOCK or (not MULTI and EDITIONS[1]) or nil
 
 local GAME_NAME = CONFIG.gameName or "Havoc"
-local IS_PRIVATE = CONFIG.private == true
+local IS_PRIVATE = SHOWN ~= nil and SHOWN.private
+local ANY_PRIVATE = false
+for _, edition in ipairs(EDITIONS) do
+    if edition.private then
+        ANY_PRIVATE = true
+    end
+end
 
 local TweenService = game:GetService("TweenService")
 local CoreGui = game:GetService("CoreGui")
@@ -35,10 +86,9 @@ local MUTED = Color3.fromRGB(145, 145, 150)
 local ERROR = Color3.fromRGB(235, 80, 95)
 local WARNING = Color3.fromRGB(235, 180, 80)
 
-local KEY_FILE = (type(CONFIG.keyFile) == "string" and CONFIG.keyFile ~= "") and CONFIG.keyFile or "multyhub_key.txt"
-local LEGACY_KEY_FILES = KEY_FILE == "multyhub_key.txt" and { "havoc_key.txt" } or {}
 local DISCORD_INVITE = "https://discord.gg/UPRtgK6tEJ"
-local PAYMENT_URL = "https://www.scpscript.info/payment/"
+local PAYMENT_URL = type(CONFIG.getKeyUrl) == "string" and CONFIG.getKeyUrl or "https://www.scpscript.info/payment/"
+local SHOW_GET_KEY = type(CONFIG.getKeyUrl) == "string" or (not MULTI and not IS_PRIVATE)
 
 local fontBold, fontMedium
 local fontOk = pcall(function()
@@ -71,34 +121,58 @@ local function readKeyFile(name)
     return nil
 end
 
-local function loadSavedKey()
-    if not hasFS then return nil end
+local function keyFilesFor(edition)
+    if edition.keyFile == "multyhub_key.txt" then
+        return { edition.keyFile, "havoc_key.txt" }
+    end
+    return { edition.keyFile }
+end
 
-    local saved = readKeyFile(KEY_FILE)
-    if saved then return saved end
+local function trimKey(key)
+    return (tostring(key or ""):gsub("^%s+", ""):gsub("%s+$", ""))
+end
 
-    for _, legacy in ipairs(LEGACY_KEY_FILES) do
-        local key = readKeyFile(legacy)
-        if key then return key end
+local function savedKeys(editions)
+    local list, seen = {}, {}
+    if not hasFS then return list end
+
+    for _, edition in ipairs(editions) do
+        for _, file in ipairs(keyFilesFor(edition)) do
+            local key = readKeyFile(file)
+            key = key and trimKey(key)
+            if key and key ~= "" and not seen[key] then
+                seen[key] = true
+                table.insert(list, { key = key, file = file })
+                break
+            end
+        end
     end
 
-    return nil
+    return list
 end
 
-local function saveKey(key)
+local function saveKey(edition, key)
     if not hasFS then return end
     pcall(function()
-        writefile(KEY_FILE, key)
+        writefile(edition.keyFile, key)
     end)
 end
 
-local function deleteSavedKey()
-    if not hasFS then return end
+local function forgetKey(file, key)
+    if not hasFS or not file then return end
     pcall(function()
-        if isfile(KEY_FILE) then
-            delfile(KEY_FILE)
+        if isfile(file) and trimKey(readfile(file)) == key then
+            delfile(file)
         end
     end)
+end
+
+local function forgetKeyEverywhere(key)
+    for _, edition in ipairs(EDITIONS) do
+        for _, file in ipairs(keyFilesFor(edition)) do
+            forgetKey(file, key)
+        end
+    end
 end
 
 local ERROR_MESSAGES = {
@@ -116,9 +190,47 @@ local ERROR_MESSAGES = {
     ERROR = "Network error. Please try again."
 }
 
-if IS_PRIVATE then
-    ERROR_MESSAGES.KEY_EXPIRED = "This key has expired. Open a ticket in our Discord to have it extended."
-    ERROR_MESSAGES.KEY_HWID_LOCKED = "Key is locked to a different HWID. Open a ticket in our Discord and staff will reset it."
+local PRIVATE_MESSAGES = {
+    KEY_EXPIRED = "This key has expired. Open a ticket in our Discord to have it extended.",
+    KEY_HWID_LOCKED = "Key is locked to a different HWID. Open a ticket in our Discord and staff will reset it."
+}
+
+local function errorMessage(code, edition, fallback)
+    if edition and edition.private and PRIVATE_MESSAGES[code] then
+        return PRIVATE_MESSAGES[code]
+    end
+    return ERROR_MESSAGES[code] or tostring(fallback or code)
+end
+
+local NOT_THIS_SCRIPT = { KEY_INCORRECT = true, SCRIPT_ID_INCORRECT = true, SCRIPT_ID_INVALID = true }
+local TEMPORARY = { UNKNOWN_ERROR = true, SECURITY_ERROR = true, TIME_ERROR = true }
+
+local function resolveKey(key)
+    local missCode
+    for _, edition in ipairs(ORDER) do
+        api.script_id = edition.scriptId
+        local ok, status = pcall(function()
+            return api.check_key(key)
+        end)
+        if not ok or type(status) ~= "table" then
+            return { kind = "network" }
+        end
+
+        local code = status.code or "ERROR"
+        if code == "KEY_VALID" then
+            return { kind = "valid", edition = edition }
+        end
+        if TEMPORARY[code] then
+            return { kind = "retry", code = code }
+        end
+        if not NOT_THIS_SCRIPT[code] then
+            return { kind = "error", code = code, edition = edition, message = status.message }
+        end
+        if missCode ~= "KEY_INCORRECT" then
+            missCode = code
+        end
+    end
+    return { kind = "error", code = missCode or "KEY_INCORRECT" }
 end
 
 local function makeCorner(parent, radius)
@@ -156,6 +268,7 @@ end
 
 do
     getgenv().SCRIPT_KEY = nil
+    getgenv().MULTYHUB_KEYUI_EDITION = nil
     getgenv().UI_CLOSED = false
 
     if type(getgenv().MULTYHUB_KEYUI_DISMISS) == "function" then
@@ -217,6 +330,7 @@ do
     gui.Parent = CoreGui
     gui.ZIndexBehavior = Enum.ZIndexBehavior.Global
     gui.IgnoreGuiInset = true
+    gui.DisplayOrder = 999600
 
     local backdrop = Instance.new("Frame")
     backdrop.Name = "\0"
@@ -335,14 +449,45 @@ do
         math.floor(ACCENT.B * 255)
     )
 
+    local function accented(text)
+        return '<font color="' .. accentTag .. '">' .. text .. "</font>"
+    end
+
+    local HWID_NOTE = "HWID resets for private keys are done by staff in a Discord ticket."
+    local titleText, infoText, footerText
+
+    if LOCK then
+        titleText = "Switch to " .. accented(LOCK.label)
+        infoText = "Paste your " .. LOCK.keyName .. ". It gets saved for next time."
+        footerText = "Press Abort to keep the version you are running now."
+            .. (LOCK.private and (" " .. HWID_NOTE) or "")
+    elseif MULTI then
+        local labels, parts = {}, {}
+        for _, edition in ipairs(EDITIONS) do
+            table.insert(labels, accented(edition.label))
+            table.insert(parts, "a " .. edition.keyName .. " loads the " .. string.lower(edition.label) .. " version")
+        end
+        local info = table.concat(parts, ", ")
+        titleText = table.concat(labels, " or ") .. " key"
+        infoText = string.upper(string.sub(info, 1, 1)) .. string.sub(info, 2) .. "."
+        footerText = "Paste either key above." .. (ANY_PRIVATE and (" " .. HWID_NOTE) or "")
+    elseif IS_PRIVATE then
+        titleText = accented("Private") .. " script"
+        infoText = "This script is not for sale. Keys are handed out by staff only."
+        footerText = "Got a key from staff? Paste it above. HWID resets for this script are done by staff in a Discord ticket."
+    else
+        titleText = accented("One key") .. " - Havoc + BRM5"
+        infoText = "\226\130\172" .. "4.99/week, \226\130\172" .. "9.99/month or \226\130\172"
+            .. "19.99 lifetime - every plan unlocks both scripts. Get a key below."
+        footerText = "One key runs Havoc and BRM5. Tap Get Key to grab yours, then paste it above."
+    end
+
     local betaTitle = Instance.new("TextLabel")
     betaTitle.Size = UDim2.new(1, -24, 0, 28)
     betaTitle.Position = UDim2.new(0, 12, 0, 10)
     betaTitle.BackgroundTransparency = 1
     betaTitle.RichText = true
-    betaTitle.Text = IS_PRIVATE
-        and ('<font color="' .. accentTag .. '">Private</font> script')
-        or ('<font color="' .. accentTag .. '">One key</font> - Havoc + BRM5')
+    betaTitle.Text = titleText
     betaTitle.TextColor3 = TEXT
     betaTitle.FontFace = fontBold
     betaTitle.TextSize = 18
@@ -354,10 +499,7 @@ do
     betaInfo.Size = UDim2.new(1, -24, 0, 24)
     betaInfo.Position = UDim2.new(0, 12, 0, 38)
     betaInfo.BackgroundTransparency = 1
-    betaInfo.Text = IS_PRIVATE
-        and "This script is not for sale. Keys are handed out by staff only."
-        or ("\226\130\172" .. "4.99/week, \226\130\172" .. "9.99/month or \226\130\172"
-            .. "19.99 lifetime - every plan unlocks both scripts. Get a key below.")
+    betaInfo.Text = infoText
     betaInfo.TextColor3 = MUTED
     betaInfo.FontFace = fontMedium
     betaInfo.TextSize = 14
@@ -464,7 +606,7 @@ do
     local abortBtn = makeButton(abortHolder, "Abort", Color3.fromRGB(30, 30, 34), Color3.fromRGB(205, 205, 215))
     makeStroke(abortBtn, Color3.fromRGB(40, 40, 46), 1)
 
-    if IS_PRIVATE then
+    if not SHOW_GET_KEY then
         getKeyHolder.Visible = false
         discordHolder.Size = UDim2.new(0.5, -5, 1, 0)
         abortHolder.Size = UDim2.new(0.5, -5, 1, 0)
@@ -475,9 +617,7 @@ do
     footer.AutomaticSize = Enum.AutomaticSize.Y
     footer.BackgroundTransparency = 1
     footer.RichText = true
-    footer.Text = IS_PRIVATE
-        and '<font color="rgb(120,120,130)">Got a key from staff? Paste it above. HWID resets for this script are done by staff in a Discord ticket.</font>'
-        or '<font color="rgb(120,120,130)">One key runs Havoc and BRM5. Tap Get Key to grab yours, then paste it above.</font>'
+    footer.Text = '<font color="rgb(120,120,130)">' .. footerText .. "</font>"
     footer.TextColor3 = MUTED
     footer.FontFace = fontMedium
     footer.TextSize = 15
@@ -696,9 +836,9 @@ do
         task.wait(0.32)
     end
 
-    local function onValidated(key)
+    local function onValidated(key, edition)
         if closed then return end
-        saveKey(key)
+        saveKey(edition, key)
 
         goToLoading()
 
@@ -712,42 +852,73 @@ do
 
         task.wait()
 
+        getgenv().MULTYHUB_KEYUI_EDITION = edition.id
         getgenv().SCRIPT_KEY = key
     end
 
-    local function tryValidate(key)
-        if busy or closed then return end
+    local function tryValidate(key, file)
+        if busy or closed then return "stop" end
 
-        key = tostring(key or ""):gsub("^%s+", ""):gsub("%s+$", "")
+        key = trimKey(key)
 
         if #key < 1 then
             setStatus("Please enter your key first.", ERROR)
-            return
+            return "failed"
         end
 
         setBusy(true)
         setStatus("Checking your key...", Color3.fromRGB(200, 200, 210))
 
-        local ok, status = pcall(function()
-            return api.check_key(key)
-        end)
+        local result = resolveKey(key)
 
-        if not ok or type(status) ~= "table" then
+        if result.kind == "network" then
             setStatus("Network error. Please try again.", ERROR)
             setBusy(false)
-            return
+            return "stop"
         end
 
-        if status.code == "KEY_VALID" then
+        if result.kind == "valid" then
+            local wrongBuild = LOCK and result.edition ~= LOCK
+            if wrongBuild or result.edition.offline then
+                saveKey(result.edition, key)
+                if file and file ~= result.edition.keyFile then
+                    forgetKey(file, key)
+                end
+                if wrongBuild then
+                    setStatus("That is a " .. string.lower(result.edition.label) .. " key. Paste your "
+                        .. LOCK.keyName .. " to switch, or press Abort.", ERROR)
+                    if file then
+                        inputBox.Text = ""
+                    end
+                else
+                    setStatus(result.edition.message
+                        or ("The " .. string.lower(result.edition.label) .. " version is offline right now."), WARNING)
+                end
+                setBusy(false)
+                return "failed"
+            end
+            if file and file ~= result.edition.keyFile then
+                forgetKey(file, key)
+            end
             setBusy(false)
-            onValidated(key)
-            return
+            onValidated(key, result.edition)
+            return "valid"
         end
 
-        local errCode = status.code or "ERROR"
-        local errMsg = ERROR_MESSAGES[errCode] or tostring(status.message or errCode)
+        if result.kind == "retry" then
+            setStatus((ERROR_MESSAGES[result.code] or "Temporary error") .. " Retrying in 10s...", WARNING)
+            validateBtn.Text = "Waiting..."
 
-        if errCode == "KEY_BANNED" then
+            task.spawn(function()
+                task.wait(10)
+                busy = false
+                tryValidate(key, file)
+            end)
+
+            return "stop"
+        end
+
+        if result.code == "KEY_BANNED" then
             setStatus("This key is blacklisted.", ERROR)
             getgenv().MULTYHUB_KEYUI_DISMISS = nil
             playExit(function()
@@ -755,27 +926,15 @@ do
                     game.Players.LocalPlayer:Kick("Key blacklisted")
                 end)
             end)
-            return
+            return "stop"
         end
 
-        if errCode == "UNKNOWN_ERROR" or errCode == "SECURITY_ERROR" or errCode == "TIME_ERROR" then
-            setStatus((ERROR_MESSAGES[errCode] or "Temporary error") .. " Retrying in 10s...", WARNING)
-            validateBtn.Text = "Waiting..."
-
-            task.spawn(function()
-                task.wait(10)
-                busy = false
-                tryValidate(key)
-            end)
-
-            return
+        if result.code ~= "KEY_HWID_LOCKED" then
+            forgetKeyEverywhere(key)
         end
-
-        if errCode ~= "KEY_HWID_LOCKED" then
-            deleteSavedKey()
-        end
-        setStatus(errMsg, ERROR)
+        setStatus(errorMessage(result.code, result.edition, result.message), ERROR)
         setBusy(false)
+        return "failed"
     end
 
     validateBtn.MouseButton1Click:Connect(function()
@@ -829,14 +988,20 @@ do
         end
     end)
 
-    local savedKey = loadSavedKey()
-    if savedKey then
-        inputBox.Text = savedKey
+    local saved = savedKeys(LOCK and { LOCK } or ORDER)
+    if #saved > 0 then
+        inputBox.Text = saved[1].key
         setStatus("Saved key found. Validating automatically...", Color3.fromRGB(200, 200, 210))
 
         task.spawn(function()
             task.wait(0.5)
-            tryValidate(savedKey)
+            for _, entry in ipairs(saved) do
+                if closed then return end
+                inputBox.Text = entry.key
+                if tryValidate(entry.key, entry.file) ~= "failed" then
+                    return
+                end
+            end
         end)
     end
 

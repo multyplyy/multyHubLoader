@@ -34,10 +34,28 @@ local GAMES = {
 			3701546109,
 		},
 		universeId = 1054526971,
-		scriptId = "f70c2c525f77307315f78fb73549bd7a",
 		accent = { 138, 154, 91 },
-		private = true,
-		url = "https://api.luarmor.net/files/v4/loaders/f70c2c525f77307315f78fb73549bd7a.lua",
+		editionFile = "multyhub_brm5_edition.txt",
+		editions = {
+			{
+				id = "private",
+				label = "Private",
+				keyName = "private key",
+				scriptId = "f70c2c525f77307315f78fb73549bd7a",
+				private = true,
+				keyFile = "multyhub_privates_key.txt",
+				url = "https://api.luarmor.net/files/v4/loaders/f70c2c525f77307315f78fb73549bd7a.lua",
+			},
+			{
+				id = "public",
+				label = "Public",
+				keyName = "MultyHub key",
+				offline = true,
+				message = "The public version is disabled right now.",
+				scriptId = "b55e67d5562bcf695ef042658cb621d1",
+				url = "https://api.luarmor.net/files/v4/loaders/b55e67d5562bcf695ef042658cb621d1.lua",
+			},
+		},
 	},
 	{
 		name = "TTK Testing",
@@ -130,14 +148,74 @@ local function runRemote(entry, url)
 	return true, result
 end
 
-local function askForKey(entry)
+local function readFile(name)
+	local ok, data = pcall(function()
+		if type(isfile) == "function" and isfile(name) then
+			return readfile(name)
+		end
+	end)
+	return ok and type(data) == "string" and data or nil
+end
+
+local function savedEdition(entry)
+	local saved = entry.editionFile and readFile(entry.editionFile)
+	local id = saved and saved:match("^%s*(%a+)")
+	for _, edition in entry.editions do
+		if edition.id == id then
+			return id
+		end
+	end
+	return nil
+end
+
+local function editionOrder(entry)
+	local preferred = savedEdition(entry)
+	local order = {}
+
+	for _, offline in { false, true } do
+		for _, edition in entry.editions do
+			if (edition.offline == true) == offline and edition.id == preferred then
+				table.insert(order, edition)
+			end
+		end
+		for _, edition in entry.editions do
+			if (edition.offline == true) == offline and edition.id ~= preferred then
+				table.insert(order, edition)
+			end
+		end
+	end
+
+	return order
+end
+
+local function refuseEdition(entry, edition)
+	local message = edition.message or ("The " .. string.lower(edition.label) .. " version is offline right now.")
+	getgenv().MULTYHUB_EDITION_REFUSED = message
+	notify("Multy Hub | " .. entry.name, message, 8)
+	warn("[Multy Hub] " .. message)
+end
+
+local function askForKey(entry, editions, lock)
+	local first = entry
+	if editions then
+		first = editions[1]
+		for _, edition in editions do
+			if edition.id == lock then
+				first = edition
+			end
+		end
+	end
+
 	getgenv().MULTYHUB_KEYUI = {
-		scriptId = entry.scriptId,
+		scriptId = first.scriptId,
 		gameName = entry.name,
 		accent = entry.accent,
-		private = entry.private,
-		keyFile = entry.keyFile,
+		private = first.private,
+		keyFile = first.keyFile,
+		editions = editions,
+		lock = lock,
 	}
+	getgenv().MULTYHUB_KEYUI_EDITION = nil
 
 	if not runRemote(entry, KEYUI_URL) then
 		return false
@@ -155,7 +233,63 @@ local function askForKey(entry)
 	return true
 end
 
+local function loadEditions(entry)
+	local request = getgenv().MULTYHUB_EDITION_REQUEST
+	getgenv().MULTYHUB_EDITION_REQUEST = nil
+
+	getgenv().MULTYHUB_EDITION_REFUSED = nil
+
+	local order = editionOrder(entry)
+	local lock
+	for _, edition in order do
+		if edition.id == request then
+			lock = edition.id
+			if edition.offline then
+				refuseEdition(entry, edition)
+				return
+			end
+		end
+	end
+
+	if order[1].offline then
+		refuseEdition(entry, order[1])
+		return
+	end
+
+	if not askForKey(entry, order, lock) then
+		return
+	end
+
+	local chosen = getgenv().MULTYHUB_KEYUI_EDITION or lock or order[1].id
+	local target = order[1]
+	for _, edition in order do
+		if edition.id == chosen then
+			target = edition
+		end
+	end
+
+	if target.offline then
+		refuseEdition(entry, target)
+		return
+	end
+
+	if lock or not savedEdition(entry) then
+		pcall(writefile, entry.editionFile, target.id)
+	end
+	getgenv().MULTYHUB_EDITION = target.id
+
+	notify("Multy Hub", "Loading " .. entry.name .. " (" .. target.label .. ")...", 3)
+	task.wait(1)
+
+	runRemote(entry, target.url)
+end
+
 local function loadGame(entry)
+	if entry.editions then
+		loadEditions(entry)
+		return
+	end
+
 	if entry.scriptId and not askForKey(entry) then
 		return
 	end

@@ -29,16 +29,23 @@ Handy if you play more than one of these.
 
 Naramo, TTK and Apocalypse Rising 2 are free and need no key, just run the loader.
 
-BRM5, bug fixes and Cold War are private. They are not for sale and keys are handed out by
-staff only. Paste your key into the key window the first time the loader runs, it gets saved
-and reused after that.
+BRM5, bug fixes and Cold War are not for sale. Paste your key into the key window the first time
+the loader runs, it gets saved and reused after that.
 
-BRM5 uses your MultyHub key, saved to `multyhub_key.txt`. Keys bought before sales closed keep
-working.
+BRM5 has two versions and your key picks which one loads:
 
-bug fixes and Cold War share one private key, separate from the MultyHub key: a MultyHub key
-does not unlock them. It is saved to `multyhub_privates_key.txt`, so it never overwrites your
-MultyHub key. HWID resets for them are done by staff in a Discord ticket.
+- A MultyHub key loads the public version. Keys bought before sales closed keep working. It is
+  saved to `multyhub_key.txt`. The public version is disabled right now.
+- A private key from staff loads the private version. It is saved to `multyhub_privates_key.txt`.
+
+If you have both, the loader remembers the version you used last. To change it, open
+Settings > Menu > Build in the script and press the switch button. The key window asks for the
+other key (or uses the saved one), and Abort keeps you on the version you're running. The menu
+footer shows which version is running.
+
+bug fixes, Cold War and private BRM5 share one private key, separate from the MultyHub key: a
+MultyHub key does not unlock them. It is saved to `multyhub_privates_key.txt`, so it never
+overwrites your MultyHub key. HWID resets for private keys are done by staff in a Discord ticket.
 
 ## "Is this a virus?"
 
