@@ -34,10 +34,10 @@ local GAMES = {
 			3701546109,
 		},
 		universeId = 1054526971,
-		scriptId = "b55e67d5562bcf695ef042658cb621d1",
+		scriptId = "f70c2c525f77307315f78fb73549bd7a",
 		accent = { 138, 154, 91 },
 		private = true,
-		url = "https://api.luarmor.net/files/v4/loaders/b55e67d5562bcf695ef042658cb621d1.lua",
+		url = "https://api.luarmor.net/files/v4/loaders/f70c2c525f77307315f78fb73549bd7a.lua",
 	},
 	{
 		name = "TTK Testing",
