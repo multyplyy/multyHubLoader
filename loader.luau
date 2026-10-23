@@ -6,12 +6,9 @@ local Workspace = game:GetService("Workspace")
 local DISCORD_URL = "https://discord.gg/UPRtgK6tEJ"
 local KEYUI_URL = "https://raw.githubusercontent.com/multyplyy/multyHubLoader/main/keyui.luau"
 
-local HUB_OFFLINE = true
+local HUB_OFFLINE = false
 local HUB_OFFLINE_MESSAGE =
 	"All scripts are offline for now. Most obfuscators have been cracked and Luraph is no longer reliable."
-
-local RETIRED_MESSAGE =
-	"This script is offline and not maintained. It is no longer updated, so it has broken features and a ban risk."
 
 local GAMES = {
 	{
@@ -28,9 +25,7 @@ local GAMES = {
 			105446216022659,
 		},
 		universeId = 358276974,
-		url = "https://api.jnkie.com/api/v1/luascripts/public/6bed93c42a6aea7af5193c70d2e9d0abfeaf0db4114e7ecf2bb9d0d6d81d3d03/download",
-		offline = true,
-		message = RETIRED_MESSAGE,
+		url = "https://api.luarmor.net/files/v4/loaders/a5bab3832baa1e81d76157aa1e4a6516.lua",
 	},
 	{
 		name = "Blackhawk Rescue Mission 5",
@@ -41,6 +36,7 @@ local GAMES = {
 		universeId = 1054526971,
 		scriptId = "b55e67d5562bcf695ef042658cb621d1",
 		accent = { 138, 154, 91 },
+		private = true,
 		url = "https://api.luarmor.net/files/v4/loaders/b55e67d5562bcf695ef042658cb621d1.lua",
 	},
 	{

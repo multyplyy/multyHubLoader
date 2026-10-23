@@ -36,7 +36,7 @@ local ERROR = Color3.fromRGB(235, 80, 95)
 local WARNING = Color3.fromRGB(235, 180, 80)
 
 local KEY_FILE = (type(CONFIG.keyFile) == "string" and CONFIG.keyFile ~= "") and CONFIG.keyFile or "multyhub_key.txt"
-local LEGACY_KEY_FILES = IS_PRIVATE and {} or { "havoc_key.txt" }
+local LEGACY_KEY_FILES = KEY_FILE == "multyhub_key.txt" and { "havoc_key.txt" } or {}
 local DISCORD_INVITE = "https://discord.gg/UPRtgK6tEJ"
 local PAYMENT_URL = "https://www.scpscript.info/payment/"
 

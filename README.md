@@ -16,36 +16,29 @@ Handy if you play more than one of these.
 
 ## Games
 
-**All scripts are offline for now.** Most obfuscators have been cracked and Luraph is no
-longer reliable, so nothing ships until that changes. Running the loader in a supported game
-shows an offline notice. Check the Discord for updates.
-
 | Game | Status |
 |------|--------|
-| Blackhawk Rescue Mission 5 | Offline for now, paid |
-| bug fixes | Offline for now, private, key from staff only |
-| Cold War | Offline for now, private, key from staff only |
-| Naramo Nuclear Plant | Offline for now, free, no key |
-| TTK Testing | Offline for now, free, no key |
-| Apocalypse Rising 2 | Offline, not maintained |
-
-Apocalypse Rising 2 isn't updated anymore, so it has broken features and a ban risk.
+| Naramo Nuclear Plant | Online, free, no key |
+| TTK Testing | Online, free, no key |
+| Apocalypse Rising 2 | Online, free, no key |
+| Blackhawk Rescue Mission 5 | Online, private, key from staff only |
+| bug fixes | Online, private, key from staff only |
+| Cold War | Online, private, key from staff only |
 
 ## Keys
 
-BRM5 is paid. Paste your key into the key window the first time the loader runs, it gets
-saved to `multyhub_key.txt` and reused after that.
+Naramo, TTK and Apocalypse Rising 2 are free and need no key, just run the loader.
 
-Plans are 4.99 EUR / week, 9.99 EUR / month, or 19.99 EUR one-time for lifetime. All three
-unlock the same thing, only the length differs. Buy at
-[scpscript.info/payment](https://www.scpscript.info/payment/) or with `/buy` in Discord.
+BRM5, bug fixes and Cold War are private. They are not for sale and keys are handed out by
+staff only. Paste your key into the key window the first time the loader runs, it gets saved
+and reused after that.
 
-Naramo and TTK are free and need no key, just run the loader.
+BRM5 uses your MultyHub key, saved to `multyhub_key.txt`. Keys bought before sales closed keep
+working.
 
-bug fixes and Cold War are private. They are not for sale and a MultyHub key does not unlock
-them; keys are handed out by staff, and HWID resets for them are done by staff in a Discord
-ticket. One private key unlocks both. It is saved separately, to `multyhub_privates_key.txt`,
-so it never overwrites your MultyHub key.
+bug fixes and Cold War share one private key, separate from the MultyHub key: a MultyHub key
+does not unlock them. It is saved to `multyhub_privates_key.txt`, so it never overwrites your
+MultyHub key. HWID resets for them are done by staff in a Discord ticket.
 
 ## "Is this a virus?"
 
