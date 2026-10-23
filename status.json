@@ -1,9 +1,8 @@
 {
   "hub_offline": false,
   "hub_offline_message": "",
-  "retired_message": "This script is offline and not maintained. It is no longer updated, so it has broken features and a ban risk.",
   "naramo": { "name": "Naramo Nuclear Plant", "shortName": "Naramo", "online": true, "private": false },
   "ar2": { "name": "Apocalypse Rising 2", "shortName": "AR2", "online": true, "private": false },
   "brm5": { "name": "Blackhawk Rescue Mission 5", "shortName": "BRM5", "online": true, "private": true },
-  "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": true, "earlyAccess": true, "private": false }
+  "ttk": { "name": "TTK Testing", "shortName": "TTK", "online": true, "private": false }
 }
